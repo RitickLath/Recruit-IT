@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "# **1. AUTHENTICATION & USER MANAGEMENT (BASIC SETUP)**   - **POST** `/api/auth/register` → Register new users (Job Seekers, Employers, Admins)   - **POST** `/api/auth/login` → Authenticate users and generate JWT   - **POST** `/api/auth/logout` → Log out user and invalidate session   - **POST** `/api/auth/forgot-password` → Request password reset link   - **POST** `/api/auth/reset-password` → Reset password with token",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/mongoose": "^5.11.97"
+  }
+}
