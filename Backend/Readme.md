@@ -1,11 +1,11 @@
 # API ENDPOINTS PLAN
 
 # **1. AUTHENTICATION & USER MANAGEMENT (BASIC SETUP)**  
-- **POST** `/api/auth/register` → Register new users (Job Seekers, Employers, Admins)  
-- **POST** `/api/auth/login` → Authenticate users and generate JWT  
-- **POST** `/api/auth/logout` → Log out user and invalidate session  
-- **POST** `/api/auth/forgot-password` → Request password reset link  
-- **POST** `/api/auth/reset-password` → Reset password with token  
+- **POST** `/api/auth/register` → Register new users (Applicant, Employers (HR), Admins)  
+- **POST** `/api/auth/login` → Authenticate users and generate JWT 
+- **POST** `/api/auth/logout` → Log out user and invalidate session
+- **POST** `/api/auth/forgot-password` → Request password reset link
+- **POST** `/api/auth/reset-password` → Reset password with token
 
 ---
 

@@ -29,6 +29,7 @@ const JobPostingSchema = new mongoose.Schema(
       type: [String],
       enum: ["Full-Time", "Part-Time", "Internship", "Contract"],
     },
+    tags: { type: [String] },
     applicants: [
       {
         jobSeekerId: {
