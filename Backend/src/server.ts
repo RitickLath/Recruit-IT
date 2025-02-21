@@ -1,9 +1,7 @@
-import express from "express";
-import "dotenv/config";
+import app from ".";
 import connectDatabase from "./config";
 
-// connectDatabase();
-
-const app = express();
-
-app.use(express.json());
+app.listen(process.env.PORT || 3000, () => {
+  //connectDatabase();
+  console.log("Server Listening...");
+});
