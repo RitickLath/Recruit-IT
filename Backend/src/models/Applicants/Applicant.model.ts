@@ -8,7 +8,7 @@ const ApplicantSchema = new mongoose.Schema(
     },
     mobileNumber: {
       type: String,
-      required: [true, "Mobile number is required"],
+      //required: [true, "Mobile number is required"],
       match: [/^\d{10}$/, "Invalid mobile number"],
     },
     workStatus: {

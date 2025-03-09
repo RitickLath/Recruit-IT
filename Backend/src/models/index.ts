@@ -10,4 +10,15 @@ import Company from "./Company/Company.model";
 import HR from "./Hr/HR.model";
 import JobPosting from "./Hr/JobPosting.model";
 
-export { Applicant, ApplicantProfile, Admin, Company, HR, JobPosting };
+// Credentials for Registration
+import Credentials from "./Credentials/Credentials";
+
+export {
+  Applicant,
+  ApplicantProfile,
+  Admin,
+  Company,
+  HR,
+  JobPosting,
+  Credentials,
+};

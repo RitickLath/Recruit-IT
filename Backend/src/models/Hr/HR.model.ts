@@ -12,13 +12,11 @@ const HRSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: [true, "Phone number is required"],
       match: [/^\d{10}$/, "Invalid phone number format"],
     },
     companyAssociated: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
-      required: true,
     },
     jobPostings: [
       {

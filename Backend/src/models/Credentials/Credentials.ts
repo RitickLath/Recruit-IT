@@ -39,5 +39,4 @@ Credential Schema Details:
 2 email (String) - Required, unique, lowercase, ensures no duplicates.
 3 password (String) - Required.
 4. Role (String) - Required (admin, hr, applicant)
-
 */
