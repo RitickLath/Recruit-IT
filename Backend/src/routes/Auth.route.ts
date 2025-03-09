@@ -1,6 +1,6 @@
+// Completed
 import express from "express";
-import { Credentials } from "../models";
-import { login, register } from "../controllers/Auth";
+import { forgetPassword, login, register } from "../controllers/Auth";
 
 const AuthRouter = express.Router();
 
@@ -11,6 +11,6 @@ AuthRouter.post("/register", register);
 AuthRouter.post("/login", login);
 
 // Request password forget link
-AuthRouter.post("/forget-password", (req, res) => {});
+AuthRouter.post("/forget-password", forgetPassword);
 
 export default AuthRouter;

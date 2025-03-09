@@ -3,10 +3,23 @@ import bcryptjs from "bcryptjs";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
+import { LoginSchema, SignUpSchema } from "../utils/zod";
 
 export const register = async (req: Request, res: Response) => {
   const { fullName, email, password, role } = req.body;
 
+  // zod validation check
+  const validationResult = SignUpSchema.safeParse(req.body);
+
+  // Early Return if zod validation fails
+  if (!validationResult.success) {
+    res.status(400).json({
+      status: false,
+      message: "Validation failed",
+      errors: validationResult.error.format(),
+    });
+    return;
+  }
   // Will do Data Validation using Zod
 
   // Init the session and start it
@@ -63,7 +76,18 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const { email, password, role } = req.body;
 
-  // Zod Validation
+  // zod validation check
+  const validationResult = LoginSchema.safeParse(req.body);
+  
+  // Early Return if zod validation fails
+  if (!validationResult.success) {
+    res.status(400).json({
+      status: false,
+      message: "Validation failed",
+      errors: validationResult.error.format(),
+    });
+    return;
+  }
 
   try {
     // Find user by email
