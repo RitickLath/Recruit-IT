@@ -2,6 +2,7 @@ import express from "express";
 import { Admin, Applicant, Credentials, HR } from "../models";
 import bcryptjs from "bcryptjs";
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 const AuthRouter = express.Router();
 
 // full name, email, password, role ->
@@ -66,10 +67,53 @@ AuthRouter.post("/register", async (req, res) => {
 });
 
 // Login user
-AuthRouter.post("/login", (req, res) => {});
+AuthRouter.post("/login", async (req, res) => {
+  const { email, password, role } = req.body;
 
-// Alternative signup endpoint
-AuthRouter.post("/signup", (req, res) => {});
+  // Zod Validation
+
+  try {
+    // Find user by email
+    const user = await Credentials.findOne({ email });
+
+    // Check if user exists
+    if (!user) {
+      res.status(400).json({ status: false, message: "Wrong Credentials" });
+      return;
+    }
+
+    // Check if role matches
+    if (user.role !== role) {
+      res.status(400).json({ status: false, message: "Role mismatch" });
+      return;
+    }
+
+    // Verify password
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(400).json({ status: false, message: "Wrong Credentials" });
+      return;
+    }
+
+    // Generate JWT token
+    const payload = { id: user._id, role };
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET as unknown as string,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    // Send response
+    res
+      .status(200)
+      .json({ status: true, message: "User Logged In", data: { token } });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: "Something Went Wrong" });
+  }
+});
 
 // Request password reset link
 AuthRouter.post("/forget-password", (req, res) => {});
