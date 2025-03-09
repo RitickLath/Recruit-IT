@@ -1,124 +1,16 @@
 import express from "express";
-import { Admin, Applicant, Credentials, HR } from "../models";
-import bcryptjs from "bcryptjs";
-import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
+import { Credentials } from "../models";
+import { login, register } from "../controllers/Auth";
+
 const AuthRouter = express.Router();
 
-// full name, email, password, role ->
-// Profile schema
-// role: applicant, hr, company
-
 // Register a new user
-AuthRouter.post("/register", async (req, res) => {
-  const { fullName, email, password, role } = req.body;
-
-  // Will do Data Validation using Zod
-
-  // Init the session and start it
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
-  try {
-    // Check if the user already exists
-    const isExists = await Credentials.findOne({ email }).session(session);
-    if (isExists) {
-      await session.abortTransaction();
-      session.endSession();
-      res.status(400).json({
-        status: false,
-        message: "User Already Exists. Please Login",
-      });
-      return;
-    }
-
-    // Hash the password
-    const hashedPassword = await bcryptjs.hash(password, 10);
-
-    // Create user credentials
-    const user = await Credentials.create(
-      [{ email, password: hashedPassword, fullName, role }],
-      { session }
-    );
-
-    // Assign user to the correct model
-    if (role === "admin") {
-      await Admin.create([{ Credentials: user[0]._id }], { session });
-    } else if (role === "hr") {
-      await HR.create([{ Credentials: user[0]._id }], { session });
-    } else if (role === "applicant") {
-      await Applicant.create([{ Credentials: user[0]._id }], { session });
-    }
-
-    // COMMIT THE TRANSACTION
-    await session.commitTransaction();
-    session.endSession();
-
-    res.json({ status: true, message: "User Registered Successfully." });
-  } catch (e) {
-    console.error(e);
-    await session.abortTransaction();
-    session.endSession();
-    res.status(500).json({
-      status: false,
-      message: "Something went wrong while registering",
-    });
-  }
-});
+AuthRouter.post("/register", register);
 
 // Login user
-AuthRouter.post("/login", async (req, res) => {
-  const { email, password, role } = req.body;
+AuthRouter.post("/login", login);
 
-  // Zod Validation
-
-  try {
-    // Find user by email
-    const user = await Credentials.findOne({ email });
-
-    // Check if user exists
-    if (!user) {
-      res.status(400).json({ status: false, message: "Wrong Credentials" });
-      return;
-    }
-
-    // Check if role matches
-    if (user.role !== role) {
-      res.status(400).json({ status: false, message: "Role mismatch" });
-      return;
-    }
-
-    // Verify password
-    const isPasswordValid = await bcryptjs.compare(password, user.password);
-    if (!isPasswordValid) {
-      res.status(400).json({ status: false, message: "Wrong Credentials" });
-      return;
-    }
-
-    // Generate JWT token
-    const payload = { id: user._id, role };
-    const token = jwt.sign(
-      payload,
-      process.env.JWT_SECRET as unknown as string,
-      {
-        expiresIn: "1d",
-      }
-    );
-
-    // Send response
-    res
-      .status(200)
-      .json({ status: true, message: "User Logged In", data: { token } });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ status: false, message: "Something Went Wrong" });
-  }
-});
-
-// Request password reset link
+// Request password forget link
 AuthRouter.post("/forget-password", (req, res) => {});
-
-// Reset password
-AuthRouter.post("/reset-password", (req, res) => {});
 
 export default AuthRouter;
