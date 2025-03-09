@@ -24,10 +24,11 @@ AuthRouter.post("/register", async (req, res) => {
     if (isExists) {
       await session.abortTransaction();
       session.endSession();
-      return res.status(400).json({
+      res.status(400).json({
         status: false,
         message: "User Already Exists. Please Login",
       });
+      return;
     }
 
     // Hash the password
