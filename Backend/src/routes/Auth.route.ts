@@ -2,6 +2,10 @@ import express from "express";
 
 const AuthRouter = express.Router();
 
+// full name, email, password, role ->
+// Profile schema
+// role: applicant, hr, company
+
 // Register a new user
 AuthRouter.post("/register", (req, res) => {});
 

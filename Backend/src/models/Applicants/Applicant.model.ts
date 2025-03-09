@@ -2,23 +2,9 @@ import mongoose from "mongoose";
 
 const ApplicantSchema = new mongoose.Schema(
   {
-    fullName: {
-      type: String,
-      required: [true, "Name is required"],
-      trim: true,
-      maxLength: [30, "Name can't exceed 30 characters"],
-    },
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      trim: true,
-      maxLength: [50, "Email can't exceed 50 characters"],
-      unique: true,
-      lowercase: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
+    Credentials: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Credentials",
     },
     mobileNumber: {
       type: String,

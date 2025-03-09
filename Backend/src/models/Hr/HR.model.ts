@@ -2,17 +2,9 @@ import mongoose from "mongoose";
 
 const HRSchema = new mongoose.Schema(
   {
-    fullName: {
-      type: String,
-      required: [true, "Full name is required"],
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      unique: true,
-      lowercase: true,
-      trim: true,
+    Credentials: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Credentials",
     },
     verified: {
       type: Boolean,
